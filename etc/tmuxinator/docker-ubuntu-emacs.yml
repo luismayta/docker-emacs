@@ -1,0 +1,61 @@
+# ~/.tmuxinator/docker-ubuntu-emacs.yml
+name: docker-ubuntu-emacs
+root: <%= ENV["PROJECTS"] %>/docker/docker-ubuntu-emacs
+tmux_options: -2
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+pre:
+    - make environment
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+# Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
+# startup_window: logs
+
+# Controls whether the tmux session should be attached to automatically. Defaults to true.
+# attach: false
+
+# Runs after everything. Use it to attach to tmux with custom options etc.
+# post: tmux -CC attach -t docker-ubuntu-emacs
+
+windows:
+  - editor:
+      layout: even-horizontal
+      panes:
+        - editor:
+            - pyenv activate docker-ubuntu-emacs
+            - <%= ENV["EDITOR"] %>
+        - vagrant:
+            - pyenv activate docker-ubuntu-emacs
+        - docker:
+            - pyenv activate docker-ubuntu-emacs
+  - python:
+      layout: main-vertical
+      panes:
+        - python:
+            - pyenv activate docker-ubuntu-emacs
+            - ipython
+  - databases:
+      layout: main-vertical
+      panes:
+        - postgresql:
+            - pyenv activate docker-ubuntu-emacs
+        - mysql:
+            - pyenv activate docker-ubuntu-emacs
+  - docker:
+      layout: main-vertical
+      panes:
+        - code:
+            - pyenv activate docker-ubuntu-emacs
+        - vagrant:
+            - pyenv activate docker-ubuntu-emacs
