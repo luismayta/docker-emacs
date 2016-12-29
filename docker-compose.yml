@@ -1,0 +1,8 @@
+networks: {}
+version: '2'
+services:
+  emacs:
+    restart: always
+    build: .
+    image: ubuntu:14.04
+volumes: {}
